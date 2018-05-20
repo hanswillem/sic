@@ -137,6 +137,10 @@ void keyPressed() {
   if (keyCode == 68) {
     resetGuiVariables();
   }
+  // 'x'
+  if (keyCode == 88) {
+    muteGuiVariables();
+  }
   // 'e'
   if (keyCode == 69) {
     saveGuiSettings();
@@ -467,11 +471,23 @@ void setupGui() {
 }
 
 
-// reset the giu variable
+// reset the gui variable
 void resetGuiVariables() { 
   for (int i = 0; i < nrs.length; i++) {
     if (nrs[i].hover || nrs[i].active) {
       nrs[i].val = nrs[i].valDefault;
+      nrs[i].reset = true;
+      nrs[i].timer = true;
+      nrs[i].tm = millis();
+    }
+  }
+}
+
+// mute the gui variable
+void muteGuiVariables() {
+  for (int i = 0; i < nrs.length; i++) {
+    if (nrs[i].hover || nrs[i].active) {
+      nrs[i].val = 0;
       nrs[i].reset = true;
       nrs[i].timer = true;
       nrs[i].tm = millis();
