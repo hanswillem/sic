@@ -51,6 +51,8 @@ class Number {
       if (d > 0.1) {
         if (shiftDown) {
           val += st / 10;
+        } else if (controlDown) { 
+          val += st * 10;
         } else {
           val += st;
         }
@@ -58,6 +60,8 @@ class Number {
       if (d < -0.1) {
         if (shiftDown) {
           val -= st / 10;
+        } else if (controlDown) { 
+          val -= st * 10;
         } else {
           val -= st;
         }

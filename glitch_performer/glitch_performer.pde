@@ -12,13 +12,13 @@
 // f - reparse file, resets global and individual position of points
 // SHIFT = lower increments when draging a number box
 // particles can be squares and or ellipses (but are just squares for now)
-// some different colors
-
+// 
 // use the dbl variable in setup to double the points n times upon parsing
 //
 // ------------------------------------------------------------------------
 // NEW STUFF:
 // ------------------------------------------------------------------------
+// CONTROL = higher increments when draging a number box
 // strokeWeight is now smooth
 // ------------------------------------------------------------------------
 
@@ -33,7 +33,8 @@ float endfrmm, endfrmmDefault, mySlider, mySliderDefault;
 // ---modifiers------------------------------------------------------------------------
 
 Number[] nrs;
-boolean guiActive, guiIsExported, guiIsLoaded, isMousePainter, isPointEditor, imgIsSaved, shiftDown;
+boolean guiActive, guiIsExported, guiIsLoaded, isMousePainter, isPointEditor, imgIsSaved; 
+boolean shiftDown, controlDown;
 String[] guiSettings, trfile;
 PVector[] tr;
 String trFileName;
@@ -51,6 +52,7 @@ void setup() {
   isMousePainter = true;
   isPointEditor = false;
   shiftDown = false;
+  controlDown = false;
   trFileName = "man_01_tracked.txt";
   parseFile();
   dbl = 1; 
@@ -122,6 +124,9 @@ void keyPressed() {
   if (keyCode == SHIFT) {
     shiftDown = true;
   }
+  if (keyCode == CONTROL) {
+    controlDown = true;
+  }
   // 'f'
   if (keyCode == 70) {
     doublePoints(0);
@@ -173,9 +178,10 @@ void keyPressed() {
 }
 
 
-// when any key is released set shiftDown to false
+// when any key is released set shiftDown & controlDown to false
 void keyReleased() {
   shiftDown = false;
+  controlDown = false;
 }
 
 
@@ -209,7 +215,7 @@ void thickStroke() {
   stroke(0, 255, random(200));
   currentStrokeWeight +=  ((d * strm) - currentStrokeWeight) * .5 ;
   strokeWeight(currentStrokeWeight);
-  
+
   if (isMousePainter) {
     if (mousePressed) {
       line(pmouseX, pmouseY, mouseX, mouseY);
