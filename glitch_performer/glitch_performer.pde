@@ -10,19 +10,20 @@
 // o - set end frame while playing
 // s - save frame
 // f - reparse file, resets global and individual position of points
-//
+// SHIFT = lower increments when draging a number box
+// particles can be squares and or ellipses (but are just squares for now)
+// some different colors
+
 // use the dbl variable in setup to double the points n times upon parsing
 //
 // ------------------------------------------------------------------------
 // NEW STUFF:
 // ------------------------------------------------------------------------
-// SHIFT = lower increments when draging a number box
-// particles can be squares and or ellipses (but are just squares for now)
-// some different colors
+// strokeWeight is now smooth
 // ------------------------------------------------------------------------
 
 ArrayList<Particle> p;
-float d, et, lt, st;
+float d, et, lt, st, currentStrokeWeight;
 int f, startfr, endfr, dbl;
 
 // ---modifiers------------------------------------------------------------------------
@@ -58,6 +59,7 @@ void setup() {
   endfr = tr.length - 1;
   f = startfr;
   nrs = new Number[8];
+  currentStrokeWeight = 1;
 
   dmDefault = .8; // distance modifer
   strmDefault = 1; // thick stroke modifier
@@ -67,7 +69,7 @@ void setup() {
   dslwmDefault = 1.1; // distance slow down modifier
   startfrmDefault = startfr; // start frame modifier 
   endfrmmDefault = endfr; //end frame modifier
-  
+
   guiActive = false;
   setupGui();
 }
@@ -114,7 +116,6 @@ void keyPressed() {
       isMousePainter = false;
       clearScreen();
       f = startfr;
-      
     }
   }
   // shift
@@ -205,8 +206,10 @@ void breakScreen() {
 
 // add the thick stroke
 void thickStroke() {
-  stroke(0, 255, 0);
-  strokeWeight(d * strm);
+  stroke(0, 255, random(200));
+  currentStrokeWeight +=  ((d * strm) - currentStrokeWeight) * .5 ;
+  strokeWeight(currentStrokeWeight);
+  
   if (isMousePainter) {
     if (mousePressed) {
       line(pmouseX, pmouseY, mouseX, mouseY);
@@ -275,6 +278,9 @@ void getDist() {
       d = dist(tr[f].x, tr[f].y, tr[f - 1].x, tr[f - 1].y);
       d *= dm;
     }
+  }
+  if (Float.isNaN(d)) {
+    d = 0;
   }
 }
 
