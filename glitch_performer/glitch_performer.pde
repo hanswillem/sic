@@ -19,6 +19,7 @@
 // NEW STUFF:
 // ------------------------------------------------------------------------
 // CONTROL = higher increments when draging a number box
+// x (while hovering over a number box) = set to 0
 // strokeWeight is now smooth
 // ------------------------------------------------------------------------
 
@@ -217,7 +218,8 @@ void breakScreen() {
 // add the thick stroke
 void thickStroke() {
   stroke(0, 255, random(200));
-  currentStrokeWeight +=  ((d * strm) - currentStrokeWeight) * .5 ;
+  float damping = 0.1;
+  currentStrokeWeight +=  ((d * strm) - currentStrokeWeight) * damping ;
   strokeWeight(currentStrokeWeight);
 
   if (isMousePainter) {
@@ -487,7 +489,7 @@ void resetGuiVariables() {
 void muteGuiVariables() {
   for (int i = 0; i < nrs.length; i++) {
     if (nrs[i].hover || nrs[i].active) {
-      nrs[i].val = 0;
+      nrs[i].val = nrs[i].valMin;
       nrs[i].reset = true;
       nrs[i].timer = true;
       nrs[i].tm = millis();
