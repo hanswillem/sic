@@ -279,6 +279,7 @@ void getDist() {
       d *= dm;
     }
   }
+  // if d is not a number (Nan), set it to 0
   if (Float.isNaN(d)) {
     d = 0;
   }
